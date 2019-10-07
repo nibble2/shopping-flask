@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Nibble Flower Shop</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <noscript>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/noscript.css') }}" /></noscript>
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    // 주문하기 API
+    function myOrder() {
+        let name = $('#order_name').val();
+        let phone = $('#order_phone').val();
+        let address = $('#order_address').val();
+        let count = $('#order_count').val();
+        let item = '졸업식';
+
+        $.ajax({
+            type: "POST",
+            url: "http://spartacodingclub.shop/order",
+            data: { name_give: name, phone_give: phone, address_give: address, count_give: count, item_give: item },
+            success: function(response) {
+                if (response['result'] == 'success') {
+                    alert('주문 완료');
+                    window.location.reload();
+                } else {
+                    alert('서버 에러');
+                }
+            }
+        })
+    }
+
+    $(document).ready(function() {
+        $('#order-box').html('');
+        listing();
+    });
+
+    // 주문 가져오기 API
+    function listing() {
+        $.ajax({
+            type: "GET",
+            url: "http://spartacodingclub.shop/order?item_give=졸업식",
+            data: {},
+            success: function(response) {
+                if (response['result'] == 'success') {
+                    let orders = response['orders'];
+                    for (let i = 0; i < orders.length; i++) {
+                        make_order(orders[i]['item'], orders[i]['name'], orders[i]['phone'], orders[i]['count'], orders[i]['address'])
+                    }
+
+                } else {
+                    console.log('실패');
+                }
+            }
+        })
+    }
+
+    function make_order(item, name, phone, count, address) {
+        let temp_html =
+            '<tr>\
+                <td>' + item + '</td>\
+                <td>' + name + '</td>\
+                <td>' + phone + '</td>\
+                <td>' + count + '</td>\
+                <td>' + address + '</td>\
+            </tr>';
+        $('#order-box').append(temp_html);
+    }
+    </script>
+</head>
+
+<body class="landing is-preload">
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+        <section id="two" class="wrapper alt style2">
+            <section class="spotlight">
+                <div class="image"><img src="../static/css/images/pic01.jpg" alt="" /></div>
+                <div class="content">
+                    <h2>프로포즈를 위한 꽃 :)<br /> </h2>
+                    <p>이 상품은 프로포즈를 위한 꽃! 입니다. <br />
+                        게절마다 어울리는 꽃을 조합하여 가장 예쁘게 배치하였습니다.<br />
+                        <input name="checkbox" type="checkbox" value="200000" onClick="itemSum(this.form);">200000원</p>
+                </div>
+            </section>
+            <section class="spotlight">
+                <div class="image"><img src="../static/css/images/pic02.jpg" alt="" /></div>
+                <div class="content">
+                    <h2>졸업식을 위한 꽃 :)<br /></h2>
+                    <p>이 상품은 졸업식을 위한 꽃! 입니다.<br />
+                        졸업을 축하하며 꽃 한송이 어떨까요 ?<br />
+                        <h4>가격: 30,000</h4>
+                    </p>
+                </div>
+            </section>
+            <section class="spotlight">
+                <div class="image"><img src="../static/css/images/pic03.jpg" alt="" /></div>
+                <div class="content">
+                    <h2>한송이로 마음 전하기 :)<br /></h2>
+                    <p>가끔은 꽃 한송이로 가볍게 마음을 전하는건 어떨까요 ?
+                        <h4>가격: 10,000 </h4>
+                    </p>
+                </div>
+            </section>
+        </section>
+        <!-- One -->
+        <section id="one" class="wrapper style1 special">
+            <div class="inner">
+                <header class="major">
+                    <h2 class="order">ORDER<br /></h2>
+                    <p class="my-order">
+                        <form class="order-form">
+                            <label for="order_name">성함</label>
+                            <input type="text" id="order_name" placeholder="입금자명과 동일하게">
+                            <label for="order_phone">전화번호</label>
+                            <input type="text" id="order_phone" placeholder="ex)01012343456">
+                            <label for="order_address">주소</label>
+                            <textarea type="text" id="order_address"></textarea>
+                            <label for="order_count">수량</label>
+                            <input type="text" id="order_count"></input>
+                            <label for="order_item">주문할 꽃</label>
+                            <select id="order_item" name="flower">
+                                <option value="프로포즈를 위한 꽃">프로포즈를 위한 꽃</option>
+                                <option value="졸업식">졸업식</option>
+                                <option value="꽃 한송이">꽃 한송이</option>
+                            </select>
+                        </form>
+                    </p>
+                </header>
+                <ul class="actions special">
+                    <button onclick="myOrder()" type="button" class="button primary">주문하기</button>
+                </ul>
+            </div>
+        </section>
+        <!-- CTA -->
+        <section id="three" class="wrapper style4">
+            <div class="inner">
+                <header class="major" id="order-list">
+                    <h2 class="order">Order List</h2>
+                </header>
+                <div class="order">
+                    <table id="table-header">
+                        <thead>
+                            <th>상품명</th>
+                            <th>주문자명</th>
+                            <th>핸드폰 번호</th>
+                            <th>갯수</th>
+                            <th>주소</th>
+                        </thead>
+                        <tbody id="order-box">
+                            <tr>
+                                <td>졸업식</td>
+                                <td>이다나</td>
+                                <td>01056820731</td>
+                                <td>1</td>
+                                <td>영등포</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
