@@ -25,11 +25,11 @@ Html + Css + JS + Jquery + Flask + mogodb 를 본격적으로 사용하여 쇼�
 #### 보완 작업
 - [x] Frontend - Javascript 코드 분리하기
 - [x] Frontend - 사용자 입력값 유효성 검사 프론트엔드부분에 추가하기 (e.g. 핸드폰 번호 칸은 정말로 핸드폰 번호만 입력할 수 있게)
-- [ ] Frontend - 다음 주소 입력 js를 가져와 주소 받아오기
+- [x] Frontend - 다음 주소 입력 js를 가져와 주소 받아오기
+- [ ] Frontend - 다음 주소 html + css 정리하기
 - [x] Backend - 유효한 입력값인지 아닌지 확인하고 아니라면 예외처리하기
 - [ ] Backend - 스크래핑 기능별로 함수, 모듈 등으로 만들어보기
-- [ ] Repository -
-
+- [x] Repository - gitignore, requirements를 통해 레파지토리 관리하기
 ### &#128550; 의문점
 
 1. API를 호출하는 ajax에서 success를 좀 더 알아보고 싶다. response, request, note만들때는 articles, 이번에는 orders로 변경되었는데,
