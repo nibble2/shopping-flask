@@ -12,6 +12,10 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/test')
+def map():
+    return render_template('test.html')
+
 # 주문하기 API
 @app.route('/order', methods=['POST'])
 def order():
@@ -42,4 +46,4 @@ def listing():
     return jsonify({'result': 'success', 'orders': result})
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5001, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
