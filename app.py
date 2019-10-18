@@ -1,7 +1,9 @@
-import requests
-from bs4 import BeautifulSoup
+import pyramid as pyramid
+import sqlalchemy as sqlalchemy
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
+pyramid
+sqlalchemy
 
 client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
 db = client.dbsparta
